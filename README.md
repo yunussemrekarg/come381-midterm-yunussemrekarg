@@ -1,1 +1,1 @@
-# come381-midterm-yunussemrekarg
+Bu proje, spor salonu üyelerinin antrenman seanslarına kaydolmasını konu alır. Veritabanında üyeler, antrenörler, antrenman seansları ve kayıtlar için dört tablo oluşturdum. Bir üye birden fazla seansa katılabildiği ve bir seansta birden fazla üye bulunabildiği için M ilişki session_registration tablosuyla kurudum. Antrenman seansları, yabancı anahtar kullanılarak antrenörlerle ilişkilendirilmiştir.
