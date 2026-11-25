@@ -1,63 +1,57 @@
 ﻿\set VERBOSITY verbose
 BEGIN;
 BEGIN
--- G├╝ncelleme ├Âncesi s─▒cak i├ğecek fiyatlar─▒n─▒ g├Âr├╝nt├╝le.
+-- Güncelleme öncesi sıcak içecek fiyatlarını görüntüle.
 SELECT name, price
 FROM product
-WHERE category = 'S─▒cak ─░├ğecek'
+WHERE category = 'Sıcak İçecek'
 ORDER BY product_id;
      name     | price 
 --------------+-------
- ├çay          | 20.00
- T├╝rk Kahvesi | 35.00
+ Çay          | 20.00
+ Türk Kahvesi | 35.00
  Latte        | 60.00
-(3 sat²r)
+(3 satır)
 
--- S─▒cak i├ğeceklerin fiyat─▒n─▒ 5 TL art─▒r.
+-- Sıcak içeceklerin fiyatını 5 TL artır.
 UPDATE product
 SET price = price + 5
-WHERE category = 'S─▒cak ─░├ğecek';
+WHERE category = 'Sıcak İçecek';
 UPDATE 3
--- G├╝ncelleme sonras─▒ fiyatlar─▒ g├Âr├╝nt├╝le.
+-- Güncelleme sonrası fiyatları görüntüle.
 SELECT name, price
 FROM product
-WHERE category = 'S─▒cak ─░├ğecek'
+WHERE category = 'Sıcak İçecek'
 ORDER BY product_id;
      name     | price 
 --------------+-------
- ├çay          | 25.00
- T├╝rk Kahvesi | 40.00
+ Çay          | 25.00
+ Türk Kahvesi | 40.00
  Latte        | 65.00
-(3 sat²r)
+(3 satır)
 
--- Olmayan ├╝r├╝n numaras─▒yla hatal─▒ kay─▒t eklemeyi dene.
+-- Olmayan ürün numarasıyla hatalı kayıt eklemeyi dene.
 INSERT INTO order_item (order_id, product_id, quantity)
 VALUES (1, 999, 1);
--- ─░┼şlemleri geri al.
-psql.exe : psql:dml.sql:24: ERROR:  23503: insert or update on table "order_item" violates foreign key constraint "orde
-r_item_product_id_fkey"
-At line:1 char:1
-+ & "C:\Program Files\PostgreSQL\18\bin\psql.exe" -U postgres -d kafe - ...
-+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (psql:dml.sql:24...roduct_id_fkey":String) [], RemoteException
-    + FullyQualifiedErrorId : NativeCommandError
- 
+psql:odev-3/dml.sql:24: ERROR:  23503: insert or update on table "order_item" violates foreign key constraint "order_item_product_id_fkey"
 AYRINTI:  Key (product_id)=(999) is not present in table "product".
-ÌEMA ADI:  public
+ŞEMA ADI:  public
 TABLO ADI:  order_item
 KISITLAMA ADI:  order_item_product_id_fkey
 YER:  ri_ReportViolation, ri_triggers.c:2783
+-- İşlemleri geri al.
 ROLLBACK;
 ROLLBACK
--- Geri alma sonras─▒ fiyatlar─▒ tekrar g├Âr├╝nt├╝le.
+-- Geri alma sonrası fiyatları tekrar görüntüle.
 SELECT name, price
 FROM product
-WHERE category = 'S─▒cak ─░├ğecek'
+WHERE category = 'Sıcak İçecek'
 ORDER BY product_id;
      name     | price 
 --------------+-------
- ├çay          | 20.00
- T├╝rk Kahvesi | 35.00
+ Çay          | 20.00
+ Türk Kahvesi | 35.00
  Latte        | 60.00
-(3 sat²r)
+(3 satır)
+
 
