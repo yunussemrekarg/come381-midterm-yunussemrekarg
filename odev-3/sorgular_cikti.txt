@@ -1,0 +1,118 @@
+﻿-- Q1: Fiyat─▒ 50 TL'den y├╝ksek ├╝r├╝nleri pahal─▒dan ucuza s─▒rala.
+-- Ne i┼şe yarar: 50 TL ├╝zerindeki ├╝r├╝nleri fiyatlar─▒na g├Âre azalan s─▒rada listeler.
+SELECT name, price
+FROM product
+WHERE price > 50
+ORDER BY price DESC;
+     name     | price 
+--------------+-------
+ Club Sandvi├ğ | 90.00
+ Cheesecake   | 85.00
+ Tost         | 70.00
+ Latte        | 60.00
+(4 sat²r)
+
+-- Q2: YBS b├Âl├╝m├╝ndeki m├╝┼şterilerin adlar─▒n─▒ alfabetik s─▒rala.
+-- Ne i┼şe yarar: YBS b├Âl├╝m├╝ndeki m├╝┼şterileri isimlerine g├Âre alfabetik olarak listeler.
+SELECT full_name
+FROM customer
+WHERE department = 'YBS'
+ORDER BY full_name ASC;
+  full_name  
+-------------
+ Ay┼şe Demir
+ Elif Y─▒ld─▒z
+ Emre ┼Şahin
+ Mehmet Kaya
+(4 sat²r)
+
+-- Q3: Her sipari┼şin numaras─▒n─▒, tarihini ve m├╝┼şterisinin ad─▒n─▒ listele.
+-- Ne i┼şe yarar: Sipari┼ş tablosunu m├╝┼şteri tablosuyla birle┼ştirerek sipari┼şleri m├╝┼şteri adlar─▒yla g├Âsterir.
+SELECT o.order_id, o.order_date, c.full_name
+FROM orders o
+INNER JOIN customer c ON o.customer_id = c.customer_id
+ORDER BY o.order_id;
+ order_id | order_date |  full_name   
+----------+------------+--------------
+        1 | 2026-11-02 | Ay┼şe Demir
+        2 | 2026-11-02 | Mehmet Kaya
+        3 | 2026-11-03 | Ay┼şe Demir
+        4 | 2026-11-04 | Elif Y─▒ld─▒z
+        5 | 2026-11-05 | Can Arslan
+        6 | 2026-11-05 | Zeynep Aksoy
+        7 | 2026-11-09 | Ay┼şe Demir
+        8 | 2026-11-10 | Burak ├çelik
+        9 | 2026-11-11 | Mehmet Kaya
+       10 | 2026-11-12 | Selin ├ûzt├╝rk
+       11 | 2026-11-16 | Elif Y─▒ld─▒z
+       12 | 2026-11-17 | Zeynep Aksoy
+(12 sat²r)
+
+-- Q4: Her sipari┼ş kaleminin ├╝r├╝n ad─▒n─▒ ve adedini listele.
+-- Ne i┼şe yarar: Sipari┼ş kalemlerini ├╝r├╝n tablosuyla birle┼ştirerek al─▒nan ├╝r├╝nleri ve adetlerini g├Âsterir.
+SELECT p.name, oi.quantity
+FROM order_item oi
+INNER JOIN product p ON oi.product_id = p.product_id
+ORDER BY oi.order_id, p.product_id;
+     name     | quantity 
+--------------+----------
+ Latte        |        1
+ Cheesecake   |        1
+ ├çay          |        2
+ Tost         |        1
+ T├╝rk Kahvesi |        1
+ Buzlu ├çay    |        1
+ Limonata     |        1
+ Club Sandvi├ğ |        1
+ ├çay          |        1
+ Cheesecake   |        2
+ Latte        |        2
+ Tost         |        1
+ Limonata     |        2
+ Club Sandvi├ğ |        1
+ T├╝rk Kahvesi |        1
+ Cheesecake   |        1
+ Latte        |        1
+ Buzlu ├çay    |        2
+ ├çay          |        1
+ Limonata     |        1
+ Tost         |        1
+ T├╝rk Kahvesi |        2
+ Cheesecake   |        1
+ Latte        |        1
+ Club Sandvi├ğ |        1
+(25 sat²r)
+
+-- Q5: Her m├╝┼şterinin verdi─şi sipari┼ş say─▒s─▒n─▒ hesapla.
+-- Ne i┼şe yarar: M├╝┼şterileri sipari┼şleriyle birle┼ştirip her m├╝┼şterinin sipari┼ş say─▒s─▒n─▒ hesaplar; sipari┼şi olmayanlar─▒ da 0 ile g├Âsterir.
+SELECT c.full_name, COUNT(o.order_id) AS order_count
+FROM customer c
+LEFT JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.customer_id, c.full_name
+ORDER BY c.customer_id;
+  full_name   | order_count 
+--------------+-------------
+ Ay┼şe Demir   |           3
+ Mehmet Kaya  |           2
+ Elif Y─▒ld─▒z  |           2
+ Can Arslan   |           1
+ Zeynep Aksoy |           2
+ Burak ├çelik  |           1
+ Selin ├ûzt├╝rk |           1
+ Emre ┼Şahin   |           0
+(8 sat²r)
+
+-- Q6: Her ├╝r├╝n kategorisinin ortalama fiyat─▒n─▒ hesapla.
+-- Ne i┼şe yarar: ├£r├╝nleri kategorilerine g├Âre grupland─▒r─▒p her kategorinin ortalama fiyat─▒n─▒ g├Âsterir.
+SELECT category, AVG(price) AS average_price
+FROM product
+GROUP BY category
+ORDER BY category;
+   category   |    average_price    
+--------------+---------------------
+ Sandvi├ğ      | 80.0000000000000000
+ S─▒cak ─░├ğecek | 38.3333333333333333
+ So─şuk ─░├ğecek | 35.0000000000000000
+ Tatl─▒        | 85.0000000000000000
+(4 sat²r)
+
